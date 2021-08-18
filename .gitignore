@@ -53,4 +53,7 @@ __pycache__/
 # Provision
 provision/.*/*
 
+# VS Code
+*.code-workspace
+
 provision/terraform/destroy-candidate.sh
