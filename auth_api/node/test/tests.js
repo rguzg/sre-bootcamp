@@ -35,7 +35,7 @@ describe('db.GetUser', () => {
   it('Requesting an existing user', async () => {
     let user = await db.GetUser("admin");
 
-    expect("admin").to.be.equal(user.username);
+    expect({username: "admin", role: 'admin'}).to.eql(user);
   });
 
   it('Requesting a non-existant user', async () => {
