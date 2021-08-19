@@ -6,6 +6,7 @@
 */
 
 import * as mysql from "mysql2";
+import { createHash } from "crypto";
 
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -37,4 +38,31 @@ export async function GetUser(username){
     }
 
     return user_info;
+}
+
+/**
+ * Compares a password hash with a user's stored password hash. Returns true if they're the same
+ * @param {String} username 
+ * @param {String} password
+ * @returns {Promise<Boolean>}
+ */
+export async function ComparePasswords(username, password){
+    if(!username || typeof(username) != 'string' || !password || typeof(password) != 'string' ){
+        throw new TypeError("Arguments should be a string");
+    }
+
+    let query = "SELECT salt FROM users WHERE username = ?"
+    let [rows, _] = await pool.query(query, [username]);
+
+    let userSalt = rows[0].salt;
+    let generatedHash = createHash('sha512').update(password + userSalt).digest('hex');
+
+    query = "SELECT password FROM users WHERE username = ? AND password = ?";
+    [rows, _] = await pool.query(query, [username, generatedHash]);
+
+    if(rows.length == 1){
+        return rows[0].password == generatedHash;
+    }
+
+    return false;
 }
