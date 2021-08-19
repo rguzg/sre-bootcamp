@@ -29,12 +29,12 @@ export async function GetUser(username){
     }
 
     let user_info = {};
-    let query = "SELECT username, role, salt FROM users WHERE username = ?";
+    let query = "SELECT username, role FROM users WHERE username = ?";
 
     let [rows, _] = await pool.query(query, [username]);
 
     if(rows.length == 1){
-        user_info = {username: rows[0].username, salt: rows[0].salt, role: rows[0].role};
+        user_info = {username: rows[0].username, role: rows[0].role};
     }
 
     return user_info;
