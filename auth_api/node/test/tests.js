@@ -52,3 +52,21 @@ describe('db.GetUser', () => {
   //   expect(await db.GetUser()).to.throw();
   // });
 });
+
+describe('db.ComparePasswords', () => {
+  it("Comparing a user's correct password", async () => {
+    expect(await db.ComparePasswords('admin', 'secret')).to.be.true;
+  });
+
+  it("Comparing a user's incorrect password", async () => {
+    expect(await db.ComparePasswords('admin', 'IncorrectPasswordOMG')).to.be.false;
+  });
+
+  it("Comparing a non existant user's password", async () => {
+    expect(await db.ComparePasswords('UserShouldNotExist', 'IncorrectPasswordOMG')).to.be.false;
+  });
+
+  // it("Comparing an empty user and password", async () => {
+  //   expect(await db.ComparePasswords('', '')).to.throw;
+  // });
+})
