@@ -54,6 +54,10 @@ export async function ComparePasswords(username, password){
     let query = "SELECT salt FROM users WHERE username = ?"
     let [rows, _] = await pool.query(query, [username]);
 
+    if(rows.length != 1){
+        return false;
+    }
+    
     let userSalt = rows[0].salt;
     let generatedHash = createHash('sha512').update(password + userSalt).digest('hex');
 
