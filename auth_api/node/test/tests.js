@@ -27,7 +27,7 @@ describe('loginFunction()', function () {
 describe('protectFunction()', function () {
   it('Test protected with correct JWT', function () {
 
-    expect("You are under protected data").to.be.equal(protectFunction("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4ifQ.StuYX978pQGnCeeaj2E1yBYwQvZIodyDTCJWXdsxBGI"));
+    expect("You are under protected data").to.be.equal(protectFunction("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4ifQ.StuYX978pQGnCeeaj2E1yBYwQvZIodyDTCJWXdsxBGI"));
   });
 
   it('Test protected with malformed JWT', function () {
@@ -60,4 +60,4 @@ describe('db.ComparePasswords', () => {
   it("Comparing a non existant user's password", async () => {
     expect(await db.ComparePasswords('UserShouldNotExist', 'IncorrectPasswordOMG')).to.be.false;
   });
-})
+});
