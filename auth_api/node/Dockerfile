@@ -1,4 +1,13 @@
-FROM node:9-alpine
+FROM node:lts
 
-# App must run on port 8000
-# Add your instructions to dockerize the application
+WORKDIR /auth_api/node
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . ./
+
+EXPOSE 8000
+
+CMD ["npm", "start"]
