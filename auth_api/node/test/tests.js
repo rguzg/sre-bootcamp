@@ -8,12 +8,9 @@
 import "dotenv/config";
 
 import chai from 'chai';
-// import * as chaiAsPromised from "chai-as-promised"; 
 import { loginFunction } from '../services/login'
 import { protectFunction } from '../services/protected'
 import * as db from '../services/database';
-
-// chai.use(chaiAsPromised);
 
 const expect = chai.expect;
 
@@ -28,9 +25,14 @@ describe('loginFunction()', function () {
 });
 
 describe('protectFunction()', function () {
-  it('Test protected', function () {
+  it('Test protected with correct JWT', function () {
 
     expect("You are under protected data").to.be.equal(protectFunction("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4ifQ.StuYX978pQGnCeeaj2E1yBYwQvZIodyDTCJWXdsxBGI"));
+  });
+
+  it('Test protected with malformed JWT', function () {
+
+    expect(protectFunction("ThisIsAMalformedJWT")).to.be.null;
   });
 });
 
