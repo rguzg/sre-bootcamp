@@ -18,9 +18,12 @@ import * as db from '../services/database';
 const expect = chai.expect;
 
 describe('loginFunction()', function () {
-  it('Test login', function () {
+  it('Test login with correct credentials', async function () {
+    expect("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4ifQ.StuYX978pQGnCeeaj2E1yBYwQvZIodyDTCJWXdsxBGI").to.be.equal(await loginFunction("admin", "secret"));
+  });
 
-    expect("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4ifQ.StuYX978pQGnCeeaj2E1yBYwQvZIodyDTCJWXdsxBGI").to.be.equal(loginFunction("admin", "secret"));
+  it('Test login with incorrect credentials', async function () {
+    expect(await loginFunction("admin", "WRONGPa$$word")).to.be.null;
   });
 });
 
@@ -41,16 +44,6 @@ describe('db.GetUser', () => {
   it('Requesting a non-existant user', async () => {
     expect({}).to.eql(await db.GetUser("ThisIsANonExistantUser"));
   });
-
-  // it('username argument is not a string', async () => {
-  //   (await db.GetUser(5)).should.be.rejected;
-  //   // expect(await db.GetUser({})).to.throw();
-  //   // expect(await db.GetUser(null)).to.throw();
-  // });
-
-  // it('username argument is missing', async () => {
-  //   expect(await db.GetUser()).to.throw();
-  // });
 });
 
 describe('db.ComparePasswords', () => {
@@ -65,8 +58,4 @@ describe('db.ComparePasswords', () => {
   it("Comparing a non existant user's password", async () => {
     expect(await db.ComparePasswords('UserShouldNotExist', 'IncorrectPasswordOMG')).to.be.false;
   });
-
-  // it("Comparing an empty user and password", async () => {
-  //   expect(await db.ComparePasswords('', '')).to.throw;
-  // });
 })
