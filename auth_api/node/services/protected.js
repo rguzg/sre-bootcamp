@@ -7,6 +7,8 @@ import { verify } from "jsonwebtoken";
  */
 export const protectFunction = (authorization) => {
   try{
+    authorization = authorization.split('Bearer')[1].trim();
+
     let jwt =  verify(authorization, process.env.SECRET);
 
     if(jwt){
@@ -15,6 +17,4 @@ export const protectFunction = (authorization) => {
   } catch (_) {
     return null;
   }
-
-  return null;
 }
